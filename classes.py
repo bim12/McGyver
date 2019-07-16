@@ -3,6 +3,7 @@
 import pygame
 from pygame.locals import * 
 from constantes import *
+from random import *
 
 class Niveau:
 	"""Classe permettant de créer un niveau"""
@@ -30,7 +31,46 @@ class Niveau:
 				structure_niveau.append(ligne_niveau)
 			#On sauvegarde cette structure
 			self.structure = structure_niveau
-	
+
+		
+		#Nombre des lignes contenent le '0' soit le labyrinthe pour deposer les objets
+		vides=[]
+		for index,ligne in enumerate(self.structure):
+			if '0' in ligne:
+				vides.append(index)
+		#prendre trois lignes depuis les vides au hasard pour y deposer des objets seringe, needle, et tube( soit 1,2,3)
+		l_has =sample(vides,k=3)
+
+		# dans chaque une des lignes trouver les index des emplcement des '0' et les placer dans les listes correspondantes
+		l_has_1=[]
+		l_has_2=[]
+		l_has_3=[]
+
+		for index,spt in enumerate(self.structure[l_has[0]]):
+			if '0' in spt:
+				l_has_1.append(index)
+		
+		for index,spt in enumerate(self.structure[l_has[1]]):
+			if '0' in spt:
+				l_has_2.append(index)
+		
+		for index,spt in enumerate(self.structure[l_has[2]]):
+			if '0' in spt:
+				l_has_3.append(index)
+		
+
+		#identifier un zero au hasard qui serais remplacée dans chaquene des lignes 
+		r1=sample(l_has_1,k=1)
+		r2=sample(l_has_2,k=1)
+		r3=sample(l_has_3,k=1)
+		
+		#remplacement des zeros avec les objets
+		self.structure[l_has[0]][r1[0]]='1'
+		self.structure[l_has[1]][r2[0]]='2'
+		self.structure[l_has[2]][r3[0]]='3'
+
+		#print(self.structure)
+
 	
 	def afficher(self, fenetre):
 		"""Méthode permettant d'afficher le niveau en fonction 
@@ -39,7 +79,11 @@ class Niveau:
 		mur = pygame.image.load(image_mur).convert()
 		depart = pygame.image.load(image_depart).convert()
 		arrivee = pygame.image.load(image_arrivee).convert_alpha()
+		plastic_tube=pygame.image.load(image_plastic_tube).convert_alpha()
+		ether=pygame.image.load(image_ether).convert_alpha()
+		needle=pygame.image.load(image_needle).convert_alpha()
 		
+
 		#On parcourt la liste du niveau
 		num_ligne = 0
 		for ligne in self.structure:
@@ -50,18 +94,19 @@ class Niveau:
 				x = num_case * taille_sprite
 				y = num_ligne * taille_sprite
 				if sprite == 'w':		   #m = Mur
-					print('mur',mur,x,y)
 					fenetre.blit(mur, (x,y))
 				elif sprite == 's':		   #d = Départ
-					print('depart',depart,x,y)
 					fenetre.blit(depart, (x,y))
+				elif sprite == '1':
+					fenetre.blit(plastic_tube,(x,y))
+				elif sprite == '2':
+					fenetre.blit(ether,(x,y))
+				elif sprite == '3':
+					fenetre.blit(needle,(x,y))
 				elif sprite == 'a':		   #a = Arrivée
-					print('arrivee',arrivee,x,y)
 					fenetre.blit(arrivee, (x,y))
 				num_case += 1
-			num_ligne += 1
-			
-			
+			num_ligne += 1	
 			
 			
 class Perso:

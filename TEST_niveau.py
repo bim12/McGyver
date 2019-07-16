@@ -57,15 +57,18 @@ print('zero a remplacer r3 = ',r3)
 
 print('verification si les zeros sont bien remplacées pour chaque ligne')
 print(structure[l_has[0]])
-structure[l_has[0]][r1[0]]='x'
+structure[l_has[0]][r1[0]]='1'
 print(structure[l_has[0]])
 
+print('Comparaison')
 print(structure[l_has[1]])
-structure[l_has[1]][r2[0]]='y'
+structure[l_has[1]][r2[0]]='2'
 print(structure[l_has[1]])
 
+print('Comparaison')
 print(structure[l_has[2]])
-structure[l_has[2]][r3[0]]='z'
+structure[l_has[2]][r3[0]]='3'
 print(structure[l_has[2]])
 
-#print(structure)
+print("Structure modifiée")
+print(structure)

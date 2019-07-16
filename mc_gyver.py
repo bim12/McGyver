@@ -11,12 +11,12 @@ import pygame
 from pygame.locals import *
 
 from classes import *
-from constantes import *
+from constants import *
 
 pygame.init()
 
 #Ouverture de la fenêtre Pygame (carré : largeur = hauteur)
-fenetre = pygame.display.set_mode((cote_fenetre, cote_fenetre))
+fenetre = pygame.display.set_mode((cote_fenetre, hauteur_fenetre))
 #Icone
 icone = pygame.image.load(image_icone)
 pygame.display.set_icon(icone)
@@ -110,7 +110,7 @@ while continuer:
 				elif event.key == K_UP:
 					Mc.deplacer('haut')
 				elif event.key == K_DOWN:
-					Mc.deplacer('bas')			
+					Mc.deplacer('bas')
 			
 		#Affichages aux nouvelles positions
 		fenetre.blit(fond, (0,0))
@@ -119,5 +119,11 @@ while continuer:
 		pygame.display.flip()
 
 		#Victoire -> Retour à l'accueil
+		if niveau.structure[Mc.case_y][Mc.case_x] == '1':
+			print('plastic_tube')
+		if niveau.structure[Mc.case_y][Mc.case_x] == '2':
+			print('ether')
+		if niveau.structure[Mc.case_y][Mc.case_x] == '3':
+			print('needle')
 		if niveau.structure[Mc.case_y][Mc.case_x] == 'a':
 			continuer_jeu = 0
