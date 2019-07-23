@@ -1,8 +1,8 @@
-"""Classes du jeu de Labyrinthe Donkey Kong"""
+"""Classes du jeu de MacGyver"""
 
 import pygame
 from pygame.locals import * 
-from constantes import *
+from constants import *
 from random import *
 
 class Niveau:
@@ -10,6 +10,12 @@ class Niveau:
 	def __init__(self, fichier):
 		self.fichier = fichier
 		self.structure = 0
+		self.ligne_tube=0
+		self.r1 = 0
+		self.ligne_ether = 0
+		self.r2 = 0
+		self.ligne_needle = 0
+		self.r3 = 0
 	
 	
 	def generer(self):
@@ -38,8 +44,13 @@ class Niveau:
 		for index,ligne in enumerate(self.structure):
 			if '0' in ligne:
 				vides.append(index)
-		#prendre trois lignes depuis les vides au hasard pour y deposer des objets seringe, needle, et tube( soit 1,2,3)
+
+		#prendre trois lignes depuis les vides au hasard pour y deposer des objets tube,ether,needle( soit 1,2,3)
 		l_has =sample(vides,k=3)
+		#Enregistrer les emplacements
+		self.ligne_tube = l_has[0]
+		self.ligne_ether = l_has[1]
+		self.ligne_needle = l_has[2]
 
 		# dans chaque une des lignes trouver les index des emplcement des '0' et les placer dans les listes correspondantes
 		l_has_1=[]
@@ -49,7 +60,7 @@ class Niveau:
 		for index,spt in enumerate(self.structure[l_has[0]]):
 			if '0' in spt:
 				l_has_1.append(index)
-		
+
 		for index,spt in enumerate(self.structure[l_has[1]]):
 			if '0' in spt:
 				l_has_2.append(index)
@@ -59,30 +70,30 @@ class Niveau:
 				l_has_3.append(index)
 		
 
-		#identifier un zero au hasard qui serais remplacée dans chaquene des lignes 
-		r1=sample(l_has_1,k=1)
-		r2=sample(l_has_2,k=1)
-		r3=sample(l_has_3,k=1)
+		#identifier l'index d'un zero pris au hasard qui serais remplacée dans chaque une des lignes
+		self.r1=sample(l_has_1,k=1)
+		self.r2=sample(l_has_2,k=1)
+		self.r3=sample(l_has_3,k=1)
 		
 		#remplacement des zeros avec les objets
-		self.structure[l_has[0]][r1[0]]='1'
-		self.structure[l_has[1]][r2[0]]='2'
-		self.structure[l_has[2]][r3[0]]='3'
+		self.structure[l_has[0]][self.r1[0]]='1'
+		self.structure[l_has[1]][self.r2[0]]='2'
+		self.structure[l_has[2]][self.r3[0]]='3'
 
 		#print(self.structure)
 
 	
 	def afficher(self, fenetre):
-		"""Méthode permettant d'afficher le niveau en fonction 
+		'''Méthode permettant d'afficher le niveau en fonction
 		de la liste de structure renvoyée par generer()"""
-		#Chargement des images (seule celle d'arrivée contient de la transparence)
+		Chargement des images (seule celle d'arrivée contient de la transparence)'''
 		mur = pygame.image.load(image_mur).convert()
 		depart = pygame.image.load(image_depart).convert()
 		arrivee = pygame.image.load(image_arrivee).convert_alpha()
 		plastic_tube=pygame.image.load(image_plastic_tube).convert_alpha()
 		ether=pygame.image.load(image_ether).convert_alpha()
 		needle=pygame.image.load(image_needle).convert_alpha()
-		
+
 
 		#On parcourt la liste du niveau
 		num_ligne = 0
@@ -106,7 +117,7 @@ class Niveau:
 				elif sprite == 'a':		   #a = Arrivée
 					fenetre.blit(arrivee, (x,y))
 				num_case += 1
-			num_ligne += 1	
+			num_ligne += 1
 			
 			
 class Perso:

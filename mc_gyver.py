@@ -23,12 +23,13 @@ pygame.display.set_icon(icone)
 #Titre
 pygame.display.set_caption(titre_fenetre)
 
-
 #BOUCLE PRINCIPALE
 continuer = 1
 while continuer:	
 	#Chargement et affichage de l'écran d'accueil
 	accueil = pygame.image.load(image_accueil).convert()
+	counter = pygame.image.load(image_counter_0).convert_alpha()
+	#syringe = pygame.image.load(image_syringe_0).convert_alpha()
 	fenetre.blit(accueil, (0,0))
 
 	#Rafraichissement
@@ -78,7 +79,27 @@ while continuer:
 		niveau.generer()
 		niveau.afficher(fenetre)
 
-		#Création de Donkey Kong
+		#Passer l'index de la ligne  ou se trouvent les objets
+		ligne_tube=niveau.ligne_tube
+		tube=niveau.r1[0] # Index de l'mplacement ou se trouve l'objet dans la ligne
+
+		ligne_ether = niveau.ligne_ether
+		ether=niveau.r2[0]# Index de l'mplacement ou se trouve l'objet dans la ligne
+
+		ligne_needle = niveau.ligne_needle
+		needle = niveau.r3[0]# Index de l'mplacement ou se trouve l'objet dans la ligne
+
+		#Creation du compteur des objets recuperées
+		object_count = 0
+
+		# text setting
+		#font_obj = pygame.font.Font('freesansbold.ttf', 22)
+		#text_surface_obj = font_obj.render('O', True, blue)
+		#text_rect_obj = text_surface_obj.get_rect()
+		#text_rect_obj.center = (30, 620)
+
+
+		#Création de McGyver
 		Mc = Perso("pictures/MacGyver.png", "pictures/MacGyver.png", 
 		"pictures/MacGyver.png", "pictures/MacGyver.png", niveau)
 
@@ -116,14 +137,40 @@ while continuer:
 		fenetre.blit(fond, (0,0))
 		niveau.afficher(fenetre)
 		fenetre.blit(Mc.direction, (Mc.x, Mc.y)) #Mc.direction = l'image dans la bonne direction
+		fenetre.blit(counter, (20, 600))
 		pygame.display.flip()
 
-		#Victoire -> Retour à l'accueil
+		#Objet recuperation and counter incrementation
 		if niveau.structure[Mc.case_y][Mc.case_x] == '1':
-			print('plastic_tube')
+			#print('plastic_tube')
+			niveau.structure[ligne_tube][tube] = '0'
+			object_count += 1
+
 		if niveau.structure[Mc.case_y][Mc.case_x] == '2':
-			print('ether')
+			#print('ether')
+			niveau.structure[ligne_ether][ether] = '0'
+			object_count += 1
+
 		if niveau.structure[Mc.case_y][Mc.case_x] == '3':
-			print('needle')
-		if niveau.structure[Mc.case_y][Mc.case_x] == 'a':
+			#print('needle')
+			niveau.structure[ligne_needle][needle] = '0'
+			object_count += 1
+		print(object_count)
+
+		#if object_count == 1 :
+			#image_counter_0 = image_counter_1
+		#if object_count == 2:
+			#image_counter_0 = image_counter_2
+		#if object_count == 3:
+			#image_counter_0 = image_counter_3
+			#image_syringe_0 = image_syringe_1
+
+		#Perdu -> DOIT RECOMENCER
+		if niveau.structure[Mc.case_y][Mc.case_x] == 'a' and object_count <= 2 :
 			continuer_jeu = 0
+			image_accueil = image_reload
+
+		# Victoire -> Fin de jeux
+		if niveau.structure[Mc.case_y][Mc.case_x] == 'a' and object_count == 3 :
+			continuer_jeu = 0
+			image_accueil = image_winn
