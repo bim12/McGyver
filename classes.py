@@ -1,3 +1,5 @@
+#! usr/bin/python3
+#-*- coding:utf-8 -*-
 """Classes of MacGyver game"""
 
 import pygame

@@ -1,6 +1,7 @@
 #! usr/bin/python3
 #-*- coding:utf-8 -*-
 
+
 """
 The game or MacGyver must escape the labyrinth
 It must have the following elements (scattered in the labyrinth): 
