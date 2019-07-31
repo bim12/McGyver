@@ -1,32 +1,32 @@
-"""Constantes du jeu de Labyrinthe Donkey Kong"""
+"""Constants of MacGyver game"""
 
-#Paramètres de la fenêtre
-nombre_sprite_cote = 15
-taille_sprite = 40
+# Window settings
+number_sprite_side = 15
+sprite_size = 40
 score_wiev=40
-cote_fenetre = nombre_sprite_cote * taille_sprite
-hauteur_fenetre = nombre_sprite_cote * taille_sprite + score_wiev
+window_side = number_sprite_side * sprite_size
+window_height = number_sprite_side * sprite_size + score_wiev
 
-#Personnalisation de la fenêtre
-titre_fenetre = "MacGyver"
-image_icone = "pictures/MacGyver.png"
+#The window customization
+window_title = "MacGyver"
+image_icon = "pictures/MacGyver.png"
 
 
-#Listes des images du jeu
-home = "pictures/home.jpg"
+#Lists of the game's images
+home_bis = "pictures/home.jpg"
 image_plastic_tube = "pictures/plastic_tube.png"
 image_ether = "pictures/ether.png"
 image_needle = "pictures/needle.png"
-image_syringe_0 = "pictures/syringe_0.png"
-image_syringe_1 = "pictures/syringe.png"
+image_syringe= "pictures/syringe.png"
 background = "pictures/background.jpg"
-image_accueil = "pictures/home.jpg"
+image_home = "pictures/home.jpg"
 image_reload = "pictures/reload.jpg"
 image_winn = "pictures/winn.jpg"
-image_fond = "pictures/background.jpg"
-image_mur = "pictures/wall_1.png"
-image_depart = "pictures/start.png"
-image_arrivee = "pictures/guardian.png"
+image_bg = "pictures/background.jpg"
+image_wall = "pictures/wall.png"
+image_start = "pictures/start.png"
+image_arrival = "pictures/guardian.png"
+image_bottom = "pictures/bottom.png"
 image_counter_0 = "pictures/counter_0.png"
 image_counter_1 = "pictures/counter_1.png"
 image_counter_2 = "pictures/counter_2.png"
