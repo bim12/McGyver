@@ -1,2 +1,2 @@
 # McGyver
-Test directories for games that will be created with Python3 with the Pygame library
+Directory that contains the game realizes with Python 3 and the Pygame librerie
