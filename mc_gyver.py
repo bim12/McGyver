@@ -1,7 +1,6 @@
 #! usr/bin/python3
 #-*- coding:utf-8 -*-
 
-
 """
 The game or MacGyver must escape the labyrinth
 It must have the following elements (scattered in the labyrinth): 
@@ -112,8 +111,7 @@ while follow:
 			if event.type == QUIT:
 				continue_game = 0
 				follow = 0
-				
-				
+								
 			elif event.type == KEYDOWN:
 				#If the user press Esc here, we return only to the menu
 				if event.key == K_ESCAPE:
@@ -129,25 +127,17 @@ while follow:
 				if event.key == K_DOWN:
 					Mc.displacement('bottom')
 
-		#Display to new positions
-		window.blit(backgr, (0,0))
-		level.display(window)
-		window.blit(Mc.direction, (Mc.x, Mc.y)) #Mc.direction
-		pygame.display.flip()
-
 		#Counter incrementation based on the objects retrieved
 		if level.structure[Mc.case_y][Mc.case_x] == '1':
 			#print('plastic_tube')
 			level.structure[line_tube][tube] = '0'
 			object_count += 1
-
-			
+	
 		if level.structure[Mc.case_y][Mc.case_x] == '2':
 			#print('ether')
 			level.structure[line_ether][ether] = '0'
 			object_count += 1
-			
-			
+				
 		if level.structure[Mc.case_y][Mc.case_x] == '3':
 			#print('needle')
 			level.structure[line_needle][needle] = '0'
@@ -158,6 +148,7 @@ while follow:
 		#Display counter
 		if object_count == 0:
 			level.structure[15][1] = 'c'
+			
 		if object_count == 1 :
 			#show number 1
 			level.structure[15][1] = 'd'
@@ -171,6 +162,12 @@ while follow:
 			level.structure[15][1] = 'f'
 			#show syringe
 			level.structure[15][2] = 'g'
+
+		#Display to new positions
+		window.blit(backgr, (0,0))
+		level.display(window)
+		window.blit(Mc.direction, (Mc.x, Mc.y)) #Mc.direction
+		pygame.display.flip()
 
 		#Lost part -> Restart
 		if level.structure[Mc.case_y][Mc.case_x] == 'a' and object_count <= 2 :
