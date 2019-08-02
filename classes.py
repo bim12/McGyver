@@ -1,5 +1,3 @@
-#! usr/bin/python3
-#-*- coding:utf-8 -*-
 """Classes of MacGyver game"""
 
 import pygame
@@ -49,6 +47,7 @@ class Level:
 
 		#Take three lines from random voids to deposit objects: tube,ether,needle( either 1,2,3)
 		l_has = sample(empty,k=3)
+		#print (l_has)
 		
 		#Save locations (l_has = line hasard choice )
 		self.line_tube = l_has[0]
@@ -143,10 +142,7 @@ class Person:
 	"""Class to create a character"""
 	def __init__(self, img, level):
 		#Sprites of the character
-		self.right = pygame.image.load(img).convert_alpha()
-		self.left = pygame.image.load(img).convert_alpha()
-		self.top = pygame.image.load(img).convert_alpha()
-		self.bottom = pygame.image.load(img).convert_alpha()
+		self.default = pygame.image.load(img).convert_alpha()
 
 		#Position of the character in boxes and pixels
 		self.case_x = 0
@@ -154,7 +150,7 @@ class Person:
 		self.x = 0
 		self.y = 0
 		#Direction 
-		self.direction = self.right
+		self.direction = self.default
 		#Level in which the character is located
 		self.level = level
 	
@@ -173,7 +169,7 @@ class Person:
 					#Calculation of the "real" pixel position
 					self.x = self.case_x * sprite_size
 			#The right way 
-			self.direction = self.right
+			self.direction = self.default
 		
 		#Move to the left
 		if direction == 'left':
@@ -181,7 +177,7 @@ class Person:
 				if self.level.structure[self.case_y][self.case_x-1] != 'w':
 					self.case_x -= 1
 					self.x = self.case_x * sprite_size
-			self.direction = self.left
+			self.direction = self.default
 		
 		#Move up
 		if direction == 'top':
@@ -189,7 +185,7 @@ class Person:
 				if self.level.structure[self.case_y-1][self.case_x] != 'w':
 					self.case_y -= 1
 					self.y = self.case_y * sprite_size
-			self.direction = self.top
+			self.direction = self.default
 		
 		#Move down
 		if direction == 'bottom':
@@ -197,4 +193,4 @@ class Person:
 				if self.level.structure[self.case_y+1][self.case_x] != 'w':
 					self.case_y += 1
 					self.y = self.case_y * sprite_size
-			self.direction = self.bottom
+			self.direction = self.default
