@@ -22,8 +22,9 @@ class Level:
 	
 	
 	def generate(self):
-		"""Method for generating the level depending on the level file.
-		 We create a general list, containing a list by line to display """	
+		"""Level generation method according to the level file.
+			We create a general list, containing a list per line to display.
+			And we randomly place 3 objects in the free slots. """	
 		#On opens the file
 		with open(self.file, "r") as file:
 			self.structure = [[sprite for sprite in line if sprite !='\n'] for line in file]
@@ -44,7 +45,7 @@ class Level:
 		l_has_3 = [index for index,spt in enumerate(self.structure[l_has[2]]) if '0' in spt]
 		
 		#identify the index of a random zero that 
-		#would be replaced in each one of the lines
+		#would be replaced in each one of the random lines
 		self.r1 = sample(l_has_1,k=1)
 		self.r2 = sample(l_has_2,k=1)
 		self.r3 = sample(l_has_3,k=1)
