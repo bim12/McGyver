@@ -11,8 +11,6 @@ Python scrits
 Files : mc_gyver.py, classes.py, constants.py, l1 = (labyrinth structure file)
 """
 
-import pygame
-from pygame.locals import *
 from classes import *
 from constants import *
 
@@ -22,8 +20,7 @@ pygame.init()
 window = pygame.display.set_mode((window_side, window_height))
 #Icon
 icon = pygame.image.load(image_icon)
-pygame.display.set_icon(icon)
-#Title
+pygame.display.set_icon(icon)#Title
 pygame.display.set_caption(window_title)
 
 #Primary loop
@@ -125,26 +122,21 @@ while follow:
 				if event.key == K_UP:
 					Mc.displacement('top')		
 				if event.key == K_DOWN:
-					Mc.displacement('bottom')
+					Mc.displacement('down')
 
 		#Counter incrementation based on the objects retrieved
 		if level.structure[Mc.case_y][Mc.case_x] == '1':
-			#print('plastic_tube')
 			level.structure[line_tube][tube] = '0'
 			object_count += 1
 	
 		if level.structure[Mc.case_y][Mc.case_x] == '2':
-			#print('ether')
 			level.structure[line_ether][ether] = '0'
 			object_count += 1
 				
 		if level.structure[Mc.case_y][Mc.case_x] == '3':
-			#print('needle')
 			level.structure[line_needle][needle] = '0'
 			object_count += 1
 				
-		#print(object_count)
-
 		#Display counter
 		if object_count == 0:
 			level.structure[15][1] = 'c'

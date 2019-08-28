@@ -1,9 +1,12 @@
+#! usr/bin/python3
+#-*- coding:utf-8 -*-
+
 """Classes of MacGyver game"""
 
 import pygame
-from pygame.locals import * 
+from pygame.locals import *
 from constants import *
-from random import *
+from random import sample
 
 class Level:
 	"""Class to create a level"""
@@ -23,31 +26,11 @@ class Level:
 		 We create a general list, containing a list by line to display """	
 		#On opens the file
 		with open(self.file, "r") as file:
-			structure_level = []
-			#We browse the lines of the file
-			for line in file:
-				line_level = []
-				#We browse the sprites contained in the each line
-				for sprite in line:
-					#On ignore the "\ n" end of line
-					if sprite != '\n':
-						#One adds the sprite to the list of the line
-						line_level.append(sprite)
-				#Add the line to the level list
-				structure_level.append(line_level)
-			#We save this structure
-			self.structure = structure_level
+			self.structure = [[sprite for sprite in line if sprite !='\n'] for line in file]
 
-		
-		#Index of lines contain the '0' or labyrinth for depositing objects
-		empty = []
-		for index,line in enumerate(self.structure):
-			if '0' in line:
-				empty.append(index)
-
-		#Take three lines from random voids to deposit objects: tube,ether,needle( either 1,2,3)
-		l_has = sample(empty,k=3)
-		#print (l_has)
+		#Take three lines from random voids to deposit objects: 
+		#tube,ether,needle( either 1,2,3)
+		l_has =sample([x for x in range(len(self.structure)) if '0' in self.structure[x]],k=3)
 		
 		#Save locations (l_has = line hasard choice )
 		self.line_tube = l_has[0]
@@ -56,23 +39,12 @@ class Level:
 
 		# In each of the lines find the indexes of the '0' locations, 
 		# and place them in the corresponding lists
-		l_has_1 = []
-		l_has_2 = []
-		l_has_3 = []
-
-		for index,spt in enumerate(self.structure[l_has[0]]):
-			if '0' in spt:
-				l_has_1.append(index)
-
-		for index,spt in enumerate(self.structure[l_has[1]]):
-			if '0' in spt:
-				l_has_2.append(index)
+		l_has_1 = [index for index,spt in enumerate(self.structure[l_has[0]]) if '0' in spt]
+		l_has_2 = [index for index,spt in enumerate(self.structure[l_has[1]]) if '0' in spt]
+		l_has_3 = [index for index,spt in enumerate(self.structure[l_has[2]]) if '0' in spt]
 		
-		for index,spt in enumerate(self.structure[l_has[2]]):
-			if '0' in spt:
-				l_has_3.append(index)
-		
-		#identify the index of a random zero that would be replaced in each one of the lines
+		#identify the index of a random zero that 
+		#would be replaced in each one of the lines
 		self.r1 = sample(l_has_1,k=1)
 		self.r2 = sample(l_has_2,k=1)
 		self.r3 = sample(l_has_3,k=1)
@@ -81,11 +53,9 @@ class Level:
 		self.structure[l_has[0]][self.r1[0]] = '1'
 		self.structure[l_has[1]][self.r2[0]] = '2'
 		self.structure[l_has[2]][self.r3[0]] = '3'
-
-		#print(self.structure)
 	
 	def display(self, window):
-		'''Method to display the level according to structure list returned by generate()'''
+		"""Method to display the level according to structure list returned by generate()"""
 		#Loading images
 		wall = pygame.image.load(image_wall).convert()
 		start = pygame.image.load(image_start).convert()
@@ -100,7 +70,6 @@ class Level:
 		c3 = pygame.image.load(image_counter_3).convert_alpha()
 		sy = pygame.image.load(image_syringe).convert_alpha()
 
-
 		#We browse the level list
 		num_line = 0
 		for line in self.structure:
@@ -110,9 +79,9 @@ class Level:
 				#On calculates the actual position in pixels
 				x = num_case * sprite_size
 				y = num_line * sprite_size
-				if sprite == 'w':		   #m = wall
+				if sprite == 'w':		   
 					window.blit(wall, (x,y))
-				elif sprite == 's':		   #d = Start
+				elif sprite == 's':		   
 					window.blit(start, (x,y))
 				elif sprite == '1':
 					window.blit(plastic_tube,(x,y))
@@ -120,7 +89,7 @@ class Level:
 					window.blit(ether,(x,y))
 				elif sprite == '3':
 					window.blit(needle,(x,y))
-				elif sprite == 'a':		   #a = Arrival
+				elif sprite == 'a':		  
 					window.blit(arrival,(x,y))
 				elif sprite == 'b':
 					window.blit(bottom_b,(x,y))
@@ -136,8 +105,7 @@ class Level:
 					window.blit(sy,(x,y))
 				num_case += 1
 			num_line += 1
-			
-			
+						
 class Person:
 	"""Class to create a character"""
 	def __init__(self, img, level):
@@ -188,7 +156,7 @@ class Person:
 			self.direction = self.default
 		
 		#Move down
-		if direction == 'bottom':
+		if direction == 'down':
 			if self.case_y < (number_sprite_side - 1):
 				if self.level.structure[self.case_y+1][self.case_x] != 'w':
 					self.case_y += 1
